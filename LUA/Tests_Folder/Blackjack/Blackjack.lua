@@ -1,3 +1,6 @@
 local card = require("Card")
 card.initCards()
-card.printCards()
+--card.printCards()
+local player = require("Player")
+player.create(1000, "A")
+--print(player.chips .. " " .. player.name)
