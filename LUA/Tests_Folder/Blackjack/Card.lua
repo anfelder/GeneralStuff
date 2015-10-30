@@ -2,7 +2,7 @@ Card = {}
 Card.__index = Card
 
 function Card.create(id)
-	local c = {}
+	local c = {} --local to this function
 	setmetatable(c, Card) --define c as a card object? i.e. Card c = new Card();
 	c.name = Card.setName(id)
 	c.value = Card.setValue(id)
@@ -37,25 +37,35 @@ end
 function Card.setDealt()
 	return false;
 end
-function Card.initCards()
+--[[function Card.initCards()
 	i = 0
-	c = {}
+	c = {}	--becomes a global variable that can be used elsewhere
 	repeat
 		c[i] = Card.create(i)
 		i = i + 1
 	until i == 52
 	return c
+end]]
+function Card.init(i)
+	c = {}
+	c = Card.create(i)
+	return c
 end
-function Card.printCards()
-	i = 0
-	repeat
-		print("Card: " .. c[i].name)
-		print("Value: " .. c[i].value)
-		print("Dealt: " .. tostring(c[i].dealt))
-		print("\n")
-		i = i + 1
-until i == 52
+function Card.print(this)
+		print("Card: " .. this.name)
+		print("Value: " .. this.value)
+		print("Dealt: " .. tostring(this.dealt))
 end
+function Card.dealCard()
+	math.randomseed(os.time())
+	cardNum = math.random(52) + 1
+	if not c[cardNum].dealt then
+		c[cardNum].dealt = true;
+		c[cardNum].print(cardNum)
+		return c[cardNum]
+	else Card.dealCard()
+	end
+end	
 
 return Card
 
