@@ -9,6 +9,7 @@ function initCard()
 	repeat
 		card_array[i] = card.init(i)
 		i = i + 1
+		
 	until i == 52
 	return 0
 end
