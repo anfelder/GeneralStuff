@@ -1,0 +1,31 @@
+<html>
+
+	<head>
+		<script type="text/javascript">
+		var testObject = {first: 1, second: 2, "third": 3};
+		testObject.fourth = "4";
+		testObject["5th"] = "5";
+		console.log(testObject.first);
+		console.log(testObject["second"]);
+		// error console.log(testObject."third");
+		console.log(testObject['5th']);
+		// errror console.log(testObject.5th);
+		console.log(testObject["fourth"]);
+
+		var testArr = ["one", "two", 3];
+		testArr[3] = 4;
+		testArr["four"] = 5;
+		console.log(testArr[0]);
+		console.log(testArr.one);
+		console.log(testArr[3]);
+		console.log(testArr["four"]);
+		console.log(testArr.four);
+
+
+
+		</script>
+	</head>
+	<body>
+		<p>f12 to see what's going on </p>
+	</body>
+</html>
