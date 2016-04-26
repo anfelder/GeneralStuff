@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <algorithm>
+#include <fstream>
 
 using namespace std;
 
@@ -26,7 +27,7 @@ void CheckTotals(int &num18, int &num17, int &num16, int &num15, int d1, int d2,
 	else if(total == 16) num16++;
 	else if(total == 15) num15++;
 }
-float StatRollAvg(){
+float StatRollAvg(ofstream &dout){
 	float c_total = 0;
 	int d1 = 0;
 	int d2 = 0;
@@ -49,35 +50,49 @@ float StatRollAvg(){
 		 << "17: " << num17 << endl
 		 << "16: " << num16 << endl
 		 << "15: " << num15 << endl;
-		  
+	dout << c_total/1000.0 << endl;
 	return (c_total/1000.0);
 }
-float AdvAvg(){
+float AdvAvg(ofstream &dout){
 	float c_total;
 	for(int i = 0; i < 1000; i++){
 		c_total += max(d20(),d20());
 	}
+	dout << c_total/1000.0 << endl;
 	return c_total/1000;
 }
-float DisadvAvg(){
+float DisadvAvg(ofstream &dout){
 	float c_total;
 	for(int i = 0; i < 1000; i++){
 		c_total += min(d20(),d20());
 	}
+	dout << c_total/1000.0 << endl;
 	return c_total/1000;
 }
-float Normald20Avg(){
+float Normald20Avg(ofstream &dout){
 	float c_total = 0;
 	for(int i = 0; i < 1000; i++){
 		c_total += d20();
 	}
+	dout << c_total/1000.0 << endl;
 	return (c_total/1000);
 }
-int main(){
+int main(int argc, char *argv[]){
 	srand(time(NULL));
 	int choice = 0;
+	int numRuns = 1;
+	ofstream dout;
+
+	if(argc != 1){
+		choice=atoi(argv[1]);
+	}
+	if(argc == 3){
+		numRuns = atoi(argv[2]);
+	}
 	system("clear");
-	do{
+	dout.open("temp.txt");
+
+	while(choice != 1 && choice != 2 && choice != 3 && choice != 4){
 		cout << "Options (All are tested with 1000 sets of rolls):" << endl;
 		cout << "1: Average total of 4d6 drop low die" << endl
 			 << "2: Average roll of a d20" << endl
@@ -85,22 +100,25 @@ int main(){
 			 << "4: Average roll of a d20 with Disadvantage" << endl;
 		cout << "Enter your choice (1-4): ";
 		cin >> choice;
-	}while(choice != 1 && choice != 2 && choice != 3 && choice != 4);
-	switch(choice){
-		case 1:
-			cout << "Average total of 4d6 drop low die: " << StatRollAvg() << endl;
-			break;
-		case 2:
-			cout << "Average roll of a d20: " << Normald20Avg() << endl;
-			break;
-		case 3:
-			cout << "Average roll of a d20 with Advantage: " << AdvAvg() << endl;
-			break;
-		case 4:
-			cout << "Average roll of a d20 with Disadvantage: " << DisadvAvg() << endl;
-			break;
-		default:
-			cout << "Error in switch statement" << endl;
+	}
+	cout << choice << endl;
+	for(int i = 0;i<numRuns;i++){
+		switch(choice){
+			case 1:
+				cout << "Average total of 4d6 drop low die: " << StatRollAvg(dout) << endl;
+				break;
+			case 2:
+				cout << "Average roll of a d20: " << Normald20Avg(dout) << endl;
+				break;
+			case 3:
+				cout << "Average roll of a d20 with Advantage: " << AdvAvg(dout) << endl;
+				break;
+			case 4:
+				cout << "Average roll of a d20 with Disadvantage: " << DisadvAvg(dout) << endl;
+				break;
+			default:
+				cout << "Error in switch statement" << endl;
+		}
 	}
 	return 0;
 }
