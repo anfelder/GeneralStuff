@@ -8,7 +8,7 @@
   my $email = Email::Simple->create(
       header => [
           From    => 'andrewfelder95@gmail.com',
-          To      => 'npdunawa@email.uark.edu',
+          To      => 'shelbye_95@yahoo.com',
           Subject => 'Testing Perl Script',
       ],
       body => 'Email sent using a perl script',
